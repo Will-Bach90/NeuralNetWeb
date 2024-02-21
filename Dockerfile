@@ -12,5 +12,4 @@ RUN pip install tensorflow
 COPY . /code/
 
 # EXPOSE 8000
-
 # CMD sh -c "cd neuralnetweb && gunicorn neuralnetweb.wsgi:application --bind 0.0.0.0:8000 --timeout 400"
