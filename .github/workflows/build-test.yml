@@ -1,0 +1,46 @@
+name: Deploy to Kubernetes
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Get last commit message
+      id: commit-message
+      run: echo "::set-output name=message::$(git log -1 --pretty=%B)"
+      
+    - name: Check commit message for deploy trigger
+      if: "contains(steps.commit-message.outputs.message, '[deploy]')"
+      run: echo "Deploying because commit message contains [deploy]"
+
+    - name: Login to Docker Hub
+      if: "contains(steps.commit-message.outputs.message, '[deploy]')"
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and Push Docker images
+      if: "contains(steps.commit-message.outputs.message, '[deploy]')"
+      run: |
+        docker build -t bach2690/medimage/deepweb:latest ./Dockerfile
+        docker push bach2690/medimage/deepweb:latest
+        docker build -t bach2690/medimage/deepnginx:latest ./nginx/Dockerfile
+        docker push bach2690/medimage/deepnginx:latest
+
+    - name: Deploy to Kubernetes
+      if: "contains(steps.commit-message.outputs.message, '[deploy]')"
+      uses: azure/k8s-deploy@v1
+      with:
+        kubeconfig: ${{ secrets.KUBECONFIG }}
+        manifests: |
+          ./deployment.yaml
+
+

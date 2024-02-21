@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deepweb-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: deepweb
+  template:
+    metadata:
+      labels:
+        app: deepweb
+    spec:
+      containers:
+      - name: deepweb
+        image: bach2690/medimage/deepweb:latest
+        ports:
+        - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deepweb-service
+spec:
+  selector:
+    app: deepweb
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deepnginx-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: deepnginx
+  template:
+    metadata:
+      labels:
+        app: deepnginx
+    spec:
+      containers:
+      - name: deepnginx
+        image: bach2690/medimage/deepnginx:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deepnginx-service
+spec:
+  selector:
+    app: deepnginx
+  ports:
+    - protocol: TCP
+      port: 8443
+      targetPort: 80
+  type: LoadBalancer
