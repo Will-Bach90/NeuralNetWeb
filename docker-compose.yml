@@ -1,0 +1,25 @@
+version: '3.10'
+
+services:
+    deepweb:
+        build: .
+        container_name: deepweb
+        command: >
+            sh -c "cd neuralnetweb && gunicorn neuralnetweb.wsgi:application --bind 0.0.0.0:8000 --timeout 400"
+        ports:
+            - "8000:8000"
+        volumes:
+            - .:/code
+        # env_file:
+        #     - .env
+
+    deepnginx:
+        build: ./nginx
+        container_name: deepnginx
+        volumes:
+            - .:/code
+            # - ./nginx/certificates:/etc/nginx/ssl:ro  # Mount SSL certificates
+        ports:
+            - "6443:80"
+        depends_on:
+            - deepweb

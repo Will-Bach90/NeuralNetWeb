@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediction Results</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+<section id="tabs" class="project-tab">
+    <div class="container mt-5">
+        <h1 class="mb-3">Prediction Results</h1>
+
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="deep-tab" data-bs-toggle="tab" data-bs-target="#deep" type="button" role="tab" aria-controls="deep" aria-selected="true">Deep Model</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="simple-tab" data-bs-toggle="tab" data-bs-target="#simple" type="button" role="tab" aria-controls="simple" aria-selected="false">Simple Model</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="multi-class-tab" data-bs-toggle="tab" data-bs-target="#multi-class" type="button" role="tab" aria-controls="multi-class" aria-selected="false">Multi Class Model</button>
+          </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="deep" role="tabpanel" aria-labelledby="deep-tab">
+            <h2 class="mb-3">{{ result1 }}</h2>
+            <p>Prediction score (higher indicates Pneumonia): {{ prediction1 }}</p>
+          </div>
+          <div class="tab-pane fade" id="simple" role="tabpanel" aria-labelledby="simple-tab">
+            <h2 class="mb-3">{{ result2 }}</h2>
+            <p>Prediction score (higher indicates Pneumonia): {{ prediction2 }}</p>
+          </div>
+          <div class="tab-pane fade" id="multi-class" role="tabpanel" aria-labelledby="multi-class-tab">
+            <h2 class="mb-3">{{ result3 }}</h2>
+            <p>
+                <ul>
+                    <li>
+                        Probability of Being Normal (no pneumonia): {{ prediction3Normal }}
+                    </li>
+                    <li>
+                        Probability of Viral Pneumonia: {{ prediction3Viral }}
+                    </li>
+                    <li>
+                        Probability of Bacterial Pneumonia: {{ prediction3Bacterial }}
+                    </li>
+                </ul>
+            </p>
+          </div>
+        </div>
+        <a href="{% url 'upload_image' %}" class="btn btn-primary mt-3">Upload another image</a>
+    </div>
+</section>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>
+
+
+
