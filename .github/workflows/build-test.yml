@@ -33,14 +33,12 @@ jobs:
         docker-compose build
         docker-compose push
 
-    - name: Set up Kubeconfig
+    - name: Set up Kubeconfig and Deploy
       run: |
-        echo "${{ secrets.KUBECONFIG }}" | base64 -d > kubeconfig
-        echo "KUBECONFIG=$GITHUB_WORKSPACE/kubeconfig" >> $GITHUB_ENV
-
-    - name: Deploy to Kubernetes
-      run: |
+        echo "${{ secrets.KUBECONFIG }}" | base64 -d > ./kubeconfig
+        export KUBECONFIG=$PWD/kubeconfig
         kubectl apply -f ./deployment.yaml
+
 
 
 
