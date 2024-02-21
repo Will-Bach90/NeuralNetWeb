@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: deepweb
-        image: bach2690/medimage/deepweb:latest
+        image: bach2690/deepweb:latest
         ports:
         - containerPort: 8000
 ---
@@ -47,7 +47,7 @@ spec:
     spec:
       containers:
       - name: deepnginx
-        image: bach2690/medimage/deepnginx:latest
+        image: bach2690/deepnginx:latest
         ports:
         - containerPort: 80
 ---
