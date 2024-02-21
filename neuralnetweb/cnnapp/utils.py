@@ -35,10 +35,9 @@ def load_and_predict_image(img_path):
     prediction2 = model2.predict(img_array)
     prediction3 = multiClassModel.predict(img_array)
 
-    predicted_class_index = np.argmax(prediction3, axis=1)[0]  # Assuming single image prediction
+    predicted_class_index = np.argmax(prediction3, axis=1)[0]  
     predicted_class = list(CLASS_INDICES.keys())[list(CLASS_INDICES.values()).index(predicted_class_index)]
     probabilities = prediction3[0]
 
-    # Return predictions for binary models and the class prediction for the multi-class model
     return [prediction1[0][0], prediction2[0][0], (predicted_class, probabilities)]
 
