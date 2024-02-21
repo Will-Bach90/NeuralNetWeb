@@ -3,6 +3,7 @@ version: '3.10'
 services:
     deepweb:
         build: .
+        image: bach2690/medimage/deepweb:latest
         container_name: deepweb
         command: >
             sh -c "cd neuralnetweb && gunicorn neuralnetweb.wsgi:application --bind 0.0.0.0:8000 --timeout 400"
@@ -15,6 +16,7 @@ services:
 
     deepnginx:
         build: ./nginx
+        image: bach2690/medimage/deepnginx:latest
         container_name: deepnginx
         volumes:
             - .:/code

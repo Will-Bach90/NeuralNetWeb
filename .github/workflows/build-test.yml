@@ -30,10 +30,8 @@ jobs:
     - name: Build and Push Docker images
       if: "contains(steps.commit-message.outputs.message, '[deploy]')"
       run: |
-        docker build -t bach2690/medimage/deepweb:latest ./Dockerfile
-        docker push bach2690/medimage/deepweb:latest
-        docker build -t bach2690/medimage/deepnginx:latest ./nginx/Dockerfile
-        docker push bach2690/medimage/deepnginx:latest
+        docker-compose build
+        docker-compose push
 
     - name: Deploy to Kubernetes
       if: "contains(steps.commit-message.outputs.message, '[deploy]')"
