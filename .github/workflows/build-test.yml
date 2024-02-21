@@ -9,36 +9,37 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
       
-    - name: Get last commit message
-      id: commit-message
-      run: echo "::set-output name=message::$(git log -1 --pretty=%B)"
+      - name: Get last commit message
+        id: commit-message
+        run: echo "::set-output name=message::$(git log -1 --pretty=%B)"
       
-    - name: Check commit message for deploy trigger
-      if: "contains(steps.commit-message.outputs.message, '[deploy]')"
-      run: echo "Deploying because commit message contains [deploy]"
+      - name: Check commit message for deploy trigger
+        if: "contains(steps.commit-message.outputs.message, '[deploy]')"
+        run: echo "Deploying because commit message contains [deploy]"
 
-    - name: Login to Docker Hub
-      if: "contains(steps.commit-message.outputs.message, '[deploy]')"
-      uses: docker/login-action@v1
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Login to Docker Hub
+        if: "contains(steps.commit-message.outputs.message, '[deploy]')"
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build and Push Docker images
-      if: "contains(steps.commit-message.outputs.message, '[deploy]')"
-      run: |
-        docker-compose build
-        docker-compose push
+      - name: Build and Push Docker images
+        if: "contains(steps.commit-message.outputs.message, '[deploy]')"
+        run: |
+          docker build -t bach2690/deepweb:latest -f Dockerfile .
+          docker push bach2690/deepweb:latest
+          docker build -t bach2690/deepnginx:latest -f nginx/Dockerfile ./nginx
+          docker push bach2690/deepnginx:latest
 
-    - name: Set up Kubeconfig and Deploy
-      run: |
-        echo "${{ secrets.KUBECONFIG }}" | base64 -d > ./kubeconfig
-        export KUBECONFIG=$PWD/kubeconfig
-        kubectl apply -f ./deployment.yaml
-
+      - name: Set up Kubeconfig and Deploy
+        run: |
+          echo "${{ secrets.KUBECONFIG }}" | base64 -d > ./kubeconfig
+          export KUBECONFIG=$PWD/kubeconfig
+          kubectl apply -f ./deployment.yaml
 
 
 
