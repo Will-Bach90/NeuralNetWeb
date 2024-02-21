@@ -1,3 +1,1 @@
-neuralnetweb/cnnapp/models/my_model.h5 filter=lfs diff=lfs merge=lfs -text
-neuralnetweb/cnnapp/models/vb_model.h5 filter=lfs diff=lfs merge=lfs -text
 *.h5 filter=lfs diff=lfs merge=lfs -text
