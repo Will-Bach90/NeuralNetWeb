@@ -36,10 +36,10 @@ A web application showcasing the accuracy of various neural net architectures in
   
 ---
 ### To use nginx, gunicorn, and docker locally  
-- Make sure you are in the `neuralnetweb/` parent folder and that you have docker installed and running (at the same level as `docker-compose.yml`).
+- Make sure you are in the `neuralnetweb/` parent folder (at the same level as `docker-compose.yml`) and that you have docker installed and running.
 - Run docker compose:
     ```
     docker compose up --build  
     ```  
 
-- After 30 seconds or so, the images should be created and the containers running. Navigate to localhost:8443 in browser to access the website. Press ctrl-C to stop the container(s).
+- After 30 seconds or so, the images should be created and the containers running. Navigate to localhost:6443 in browser to access the website. Press ctrl-C to stop the containers.
