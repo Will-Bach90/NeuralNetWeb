@@ -11,7 +11,7 @@ A web application showcasing the accuracy of various neural net architectures in
   
 2. Clone the repo, and navigate to the neuralnetweb folder:
     ```
-    git clone https://github.com/AffordabilityModelResearchGroup/neuralnetweb.git  
+    git clone https://github.com/Will-Bach90/NeuralNetWeb.git
     cd neuralnetweb  
     ```
   
