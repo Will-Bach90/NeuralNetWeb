@@ -11,6 +11,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        
+      - name: Install Git LFS
+        run: |
+          sudo apt-get install git-lfs
+          git lfs install
+      
+      - name: Pull LFS files
+        run: git lfs pull
       
       - name: Get last commit message
         id: commit-message
