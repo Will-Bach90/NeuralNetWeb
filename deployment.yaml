@@ -17,6 +17,11 @@ spec:
         image: bach2690/deepweb:latest
         ports:
         - containerPort: 8000
+        resources:
+          requests:
+            ephemeral-storage: "1Gi"
+          limits:
+            ephemeral-storage: "2Gi"
 ---
 apiVersion: v1
 kind: Service
@@ -50,6 +55,11 @@ spec:
         image: bach2690/deepnginx:latest
         ports:
         - containerPort: 8443
+        resources:
+          requests:
+            ephemeral-storage: "1Gi"
+          limits:
+            ephemeral-storage: "2Gi"
 ---
 apiVersion: v1
 kind: Service
