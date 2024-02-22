@@ -17,9 +17,10 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 print("base dir is: " + str(BASE_DIR))
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost', '34.218.244.140']
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:8443'
+    'http://localhost:8443',
+    'http://34.218.244.140:8443',
 ]
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
