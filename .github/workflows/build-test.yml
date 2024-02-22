@@ -11,14 +11,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        
-      - name: Install Git LFS
-        run: |
-          sudo apt-get install git-lfs
-          git lfs install
+        with:
+          lfs: true
       
-      - name: Pull LFS files
-        run: git lfs pull
+      - name: Checkout LFS objects
+        run: git lfs checkout
       
       - name: Get last commit message
         id: commit-message
@@ -38,16 +35,20 @@ jobs:
       - name: Build and Push Docker images
         if: "contains(steps.commit-message.outputs.message, '[deploy]')"
         run: |
-          docker build -t bach2690/deepweb:latest -f Dockerfile .
-          docker push bach2690/deepweb:latest
-          docker build -t bach2690/deepnginx:latest -f nginx/Dockerfile ./nginx
-          docker push bach2690/deepnginx:latest
+          docker build -t bach2690/deepweb:${{ github.sha }} -f Dockerfile .
+          docker push bach2690/deepweb:${{ github.sha }}
+          docker build -t bach2690/deepnginx:${{ github.sha }} -f nginx/Dockerfile ./nginx
+          docker push bach2690/deepnginx:${{ github.sha }}
 
-      - name: Set up Kubeconfig and Deploy
+      - name: Set up Kubeconfig
         run: |
           echo "${{ secrets.KUBECONFIG }}" | base64 -d > ./kubeconfig
           export KUBECONFIG=$PWD/kubeconfig
-          kubectl apply -f ./deployment.yaml
+
+      - name: Update Kubernetes Deployment with New Image
+        run: |
+          kubectl set image deployment/deepweb-deployment deepweb=bach2690/deepweb:${{ github.sha }}
+          kubectl set image deployment/deepnginx-deployment deepnginx=bach2690/deepnginx:${{ github.sha }}
 
 
 
