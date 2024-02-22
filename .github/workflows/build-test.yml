@@ -47,8 +47,8 @@ jobs:
 
       - name: Update Kubernetes Deployment with New Image
         run: |
-          kubectl --kubeconfig=$HOME/kubeconfig set image deployment/deepweb-deployment deepweb=bach2690/deepweb:${{ github.sha }} -n your-namespace
-          kubectl --kubeconfig=$HOME/kubeconfig set image deployment/deepnginx-deployment deepnginx=bach2690/deepnginx:${{ github.sha }} -n your-namespace
+          kubectl --kubeconfig=$HOME/kubeconfig set image deployment/deepweb-deployment deepweb=bach2690/deepweb:${{ github.sha }} -n default
+          kubectl --kubeconfig=$HOME/kubeconfig set image deployment/deepnginx-deployment deepnginx=bach2690/deepnginx:${{ github.sha }} -n default
 
 
 
