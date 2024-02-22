@@ -19,7 +19,7 @@ print("base dir is: " + str(BASE_DIR))
 
 ALLOWED_HOSTS = ['localhost']
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:6443'
+    'http://localhost:8443'
 ]
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
