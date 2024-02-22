@@ -22,6 +22,6 @@ services:
             - .:/code
             # - ./nginx/certificates:/etc/nginx/ssl:ro  # Mount SSL certificates
         ports:
-            - "8443:80"
+            - "8443:8443"
         depends_on:
             - deepweb
