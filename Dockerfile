@@ -1,16 +1,24 @@
 FROM python:3.10-slim as builder
 
-# Set environment variables to reduce Python bytecode generation and unbuffered logging
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# Install build dependencies in a virtual environment to avoid polluting the final image
 WORKDIR /code
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    libpq-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Upgrade pip and install pipenv
+RUN pip install --upgrade pip && \
+    pip install pipenv
+
+# Install Python dependencies
 COPY Pipfile Pipfile.lock /code/
-RUN apt-get update && apt-get install -y --no-install-recommends gcc libpq-dev && \
-    pip install --upgrade pip && \
-    pip install pipenv && \
-    pipenv install --system --deploy --ignore-pipfile
+RUN pipenv install --system --deploy --ignore-pipfile
 
 RUN pip install tensorflow
 
